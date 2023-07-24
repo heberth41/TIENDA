@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Juguetes</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <h1>Tienda de Juguetes</h1>
+    <table>
+        <tr>
+            <th>Tipos de Juguetes</th>
+            <th>Precio (S/.)</th>
+        </tr>
+        <tr>
+            <td>Monopolio</td>
+            <td>S/.70.99</td>
+        </tr>
+        <tr>
+            <td>Ajedrez</td>
+            <td>S/.78.99</td>
+        </tr>
+        <tr>
+            <td>Lego</td>
+            <td>S/.100.99</td>
+        </tr>
+        <tr>
+            <td>Dama</td>
+            <td>S/.58.50</td>
+        </tr>
+        <tr>
+            <td>Laberinto</td>
+            <td>S/.35.00</td>
+        </tr>
+    </table>
+
+    <label for="juguetes">Selecciona un juguete:</label>
+    <select id="juguetes">
+        <option value="0.00">Juguete</option>
+        <option value="70.99">Monopolio</option>
+        <option value="78.99">Ajedrez</option>
+        <option value="100.99">Lego</option>
+        <option value="58.50">Dama</option>
+        <option value="35.00">Laberinto</option>
+    </select>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" placeholder="Ponga su Cantidad">
+    <button onclick="calcularImporte()">Calcular Importe</button>
+
+    <div id="resultados">
+        <h2>Resultados:</h2>
+        <p>Juguete seleccionado: <span id="nombreJuguete"></span></p>
+        <p>Precio unitario: S/.<span id="precioUnitario"></span></p>
+        <p>Cantidad: <span id="cantidadCompra"></span></p>
+        <p>Importe de la compra: S/.<span id="importeCompra"></span></p>
+        <p>Tipo de descuento: <span id="tipoDescuento"></span></p>
+        <p>Importe de descuento: S/.<span id="importeDescuento"></span></p>
+        <p>Importe a pagar: S/.<span id="importePagar"></span></p>
+    </div>
+
+    <script>
+        function calcularImporte() {
+            var jugueteSeleccionado = document.getElementById('juguetes');
+            var precioJuguete = parseFloat(jugueteSeleccionado.value);
+            var cantidad = parseInt(document.getElementById('cantidad').value);
+
+            if (isNaN(precioJuguete) || isNaN(cantidad)) {
+                alert("Por favor, ingresa valores válidos para el precio y la cantidad.");
+                return;
+            }
+
+            var importeCompra = precioJuguete * cantidad;
+            var descuento = 0;
+            var tipoDescuento = "";
+
+            if (cantidad < 10) {
+                descuento = importeCompra * 0.035; // Descuento del 3.5%
+                tipoDescuento = "3.5%";
+            } else if (cantidad >= 10 && cantidad <= 20) {
+                descuento = importeCompra * 0.07; // Descuento del 7%
+                tipoDescuento = "7%";
+            } else {
+                descuento = importeCompra * 0.095; // Descuento del 9.5%
+                tipoDescuento = "9.5%";
+            }
+
+            var importePagar = importeCompra - descuento;
+
+            document.getElementById('nombreJuguete').textContent = jugueteSeleccionado.options[jugueteSeleccionado.selectedIndex].text;
+            document.getElementById('precioUnitario').textContent = precioJuguete.toFixed(2);
+            document.getElementById('cantidadCompra').textContent = cantidad;
+            document.getElementById('importeCompra').textContent = importeCompra.toFixed(2);
+            document.getElementById('tipoDescuento').textContent = tipoDescuento;
+            document.getElementById('importeDescuento').textContent = descuento.toFixed(2);
+            document.getElementById('importePagar').textContent = importePagar.toFixed(2);
+
+            document.getElementById('resultados').style.display = 'block';
+            document.getElementById('mensaje-exito').style.display = 'none';
+        }
+
+        function limpiarDatos() {
+            document.getElementById('cantidad').value = '';
+            document.getElementById('resultados').style.display = 'none';
+            document.getElementById('mensaje-exito').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
